@@ -45,4 +45,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Workspace yang dimiliki user (sebagai Owner)
+public function ownedWorkspaces()
+{
+    return $this->hasMany(Workspace::class);
+}
+
+// Workspace di mana user menjadi anggota (via pivot table)
+public function workspaces()
+{
+    return $this->belongsToMany(Workspace::class, 'workspace_members')
+                ->withPivot('role')
+                ->withTimestamps();
+}
 }
